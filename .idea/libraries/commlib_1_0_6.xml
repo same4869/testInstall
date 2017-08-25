@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="commlib-1.0.6">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/e4d3ac512308920818b279648cc3b9d961cf500a/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/e4d3ac512308920818b279648cc3b9d961cf500a/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
