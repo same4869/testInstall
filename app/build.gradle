@@ -5,10 +5,11 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.xun.testinstall"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
+
     }
     buildTypes {
         release {

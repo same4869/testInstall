@@ -17,21 +17,6 @@
             android:text="Hello World!"/>
 
         <Button
-            android:id="@+id/install_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="install_app"
-            android:visibility="gone"/>
-
-        <Button
-            android:id="@+id/startapp_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="start app"
-            android:visibility="gone"/>
-
-
-        <Button
             android:id="@+id/download_app"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

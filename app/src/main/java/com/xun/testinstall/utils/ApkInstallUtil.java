@@ -18,7 +18,7 @@ import java.nio.charset.Charset;
  * Created by xunwang on 2017/8/24.
  */
 
-public class ApkController {
+public class ApkInstallUtil {
     /**
      * 描述: 安装
      */
