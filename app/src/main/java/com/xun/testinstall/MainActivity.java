@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.xun.testinstall.service.AppInstallService;
+import com.xun.testinstall.utils.ApkInstallUtil;
 
 public class MainActivity extends AppCompatActivity {
     private Button downloadAppBtn;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ApkInstallUtil.requestSU();
 
         downloadAppBtn = (Button) findViewById(R.id.download_app);
         downloadAppBtn.setOnClickListener(new View.OnClickListener() {

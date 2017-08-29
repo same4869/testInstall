@@ -30,6 +30,13 @@
             android:name=".service.AppInstallService"
             android:exported="true"/>
 
+        <receiver android:name=".receiver.UpdateReceiver">
+            <intent-filter>
+                <action android:name="requset.update.remote.action" />
+                <action android:name="requset.install.action"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

@@ -227,6 +227,17 @@ public class ApkInstallUtil {
     }
 
     /**
+     * 申请root权限
+     */
+    public static void requestSU(){
+        try {
+            Process process = Runtime.getRuntime().exec("su");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 执行具体的静默安装逻辑，需要手机ROOT。
      *
      * @param apkPath 要安装的apk文件的路径
