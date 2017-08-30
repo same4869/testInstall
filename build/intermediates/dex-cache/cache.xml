@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/xunwang/.gradle/caches/modules-2/files-2.1/com.alibaba/fastjson/1.2.37/748cbf698e77f2df5061500a79a22e1f479dfec2/fastjson-1.2.37.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="748cbf698e77f2df5061500a79a22e1f479dfec2">
+        <dex dex="/Users/xunwang/Documents/git_work_same/testInstall/app/build/intermediates/pre-dexed/debug/fastjson-1.2.37_0c4b8f65daeda649c33be1c6c37825206e810aed.jar" />
+    </item>
+
+</items>

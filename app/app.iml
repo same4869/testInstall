@@ -107,6 +107,7 @@
     <orderEntry type="library" name="aria-annotations-3.2.22" level="project" />
     <orderEntry type="library" name="support-core-ui-26.0.0-alpha1" level="project" />
     <orderEntry type="library" name="commlib-1.0.6" level="project" />
+    <orderEntry type="library" name="fastjson-1.2.37" level="project" />
     <orderEntry type="library" name="support-fragment-26.0.0-alpha1" level="project" />
     <orderEntry type="library" name="support-core-utils-26.0.0-alpha1" level="project" />
     <orderEntry type="library" name="gson-2.8.0" level="project" />

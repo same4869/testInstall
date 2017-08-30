@@ -12,10 +12,17 @@ import com.arialyy.annotations.Download;
 import com.arialyy.aria.core.Aria;
 import com.arialyy.aria.core.download.DownloadTask;
 import com.arialyy.aria.util.WeakHandler;
+import com.xun.testinstall.bean.UpdateBean;
+import com.xun.testinstall.json.JSONFormatExcetion;
+import com.xun.testinstall.json.JSONToBeanHandler;
+import com.xun.testinstall.sp.CommSetting;
 import com.xun.testinstall.utils.ApkInstallUtil;
 import com.xun.testinstall.utils.LogUtil;
 
 import commlib.xun.com.commlib.thread.CommThreadPool;
+
+import static com.xun.testinstall.receiver.UpdateReceiver.DOWNLOAD_INFO_KEY;
+import static com.xun.testinstall.receiver.UpdateReceiver.DOWNLOAD_OR_INSTALL_KEY;
 
 /**
  * 静默下载安装并打开目标APP
@@ -60,9 +67,25 @@ public class AppInstallService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtil.d("kkkkkkkk", "AppInstallService onStartCommand");
-        if (!isUpdating) {
-            startDownload(DOWNLOAD_URL, APK_PATH);
+        LogUtil.d("kkkkkkkk", "AppInstallService onStartCommand isUpdating --> " + isUpdating);
+        if (!isUpdating && intent != null) {
+            int downloadOrInstall = intent.getIntExtra(DOWNLOAD_OR_INSTALL_KEY, 0);
+            LogUtil.d("kkkkkkkk", "AppInstallService onStartCommand downloadOrInstall --> " + downloadOrInstall);
+            if (downloadOrInstall == 1) {//下载
+                String dataString = intent.getStringExtra(DOWNLOAD_INFO_KEY);
+                try {
+                    UpdateBean updateBean = JSONToBeanHandler.fromJsonString(dataString, UpdateBean.class);
+                    if (updateBean != null && updateBean.getData() != null) {
+                        startDownload(DOWNLOAD_URL/*updateBean.getData().getDownload()*/, APK_PATH);
+                    }
+                } catch (JSONFormatExcetion jsonFormatExcetion) {
+                    jsonFormatExcetion.printStackTrace();
+                }
+            } else if (downloadOrInstall == 2) {
+                if (CommSetting.getIsAppShouldInstall()) {
+                    startSInstall(APK_PATH);
+                }
+            }
         }
         return START_STICKY;
     }
@@ -77,12 +100,15 @@ public class AppInstallService extends Service {
             @Override
             public void run() {
                 if (ApkInstallUtil.hasRootPerssion()) {
+                    isUpdating = true;
                     LogUtil.d("kkkkkkkk", "has RootPerssion");
                     LogUtil.d("kkkkkkkk", "start install");
                     sendMsgToHandler("start install");
                     boolean isSuc = ApkInstallUtil.install(apkPath);
                     LogUtil.d("kkkkkkkk", "isSuc --> " + isSuc);
                     startOpenApp(TARGET_PACKAGE_NAME, TARGET_CLASS_NAME);
+                    CommSetting.setIsAppShouldInstall(false);
+                    isUpdating = false;
                 } else {
                     sendMsgToHandler("has not RootPerssion");
                     LogUtil.d("kkkkkkkk", "has not RootPerssion");
@@ -147,7 +173,8 @@ public class AppInstallService extends Service {
     @Download.onTaskComplete(DOWNLOAD_URL)
     void taskComplete(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "taskComplete");
-        startSInstall(APK_PATH);
+        CommSetting.setIsAppShouldInstall(true);
+        isUpdating = false;
     }
 
     @Download.onNoSupportBreakPoint(DOWNLOAD_URL)

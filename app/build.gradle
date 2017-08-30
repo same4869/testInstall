@@ -25,4 +25,5 @@ dependencies {
     compile 'com.xwang:commlib:1.0.6'
     compile 'com.arialyy.aria:aria-core:3.2.22'
     annotationProcessor 'com.arialyy.aria:aria-compiler:3.2.22'
+    compile 'com.alibaba:fastjson:1.2.37'
 }
