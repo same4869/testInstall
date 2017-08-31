@@ -251,7 +251,11 @@ public class ApkInstallUtil {
             // 申请su权限
             Process process = Runtime.getRuntime().exec("su");
             dataOutputStream = new DataOutputStream(process.getOutputStream());
+
             // 执行pm install命令
+            String command1 = "chmod 777 " + apkPath + "\n";
+            dataOutputStream.write(command1.getBytes(Charset.forName("utf-8")));
+            dataOutputStream.flush();
             String command = "pm install -r " + apkPath + "\n";
             dataOutputStream.write(command.getBytes(Charset.forName("utf-8")));
             dataOutputStream.flush();

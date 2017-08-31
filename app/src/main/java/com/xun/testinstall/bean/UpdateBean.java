@@ -1,17 +1,15 @@
 package com.xun.testinstall.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by xunwang on 2017/8/29.
  */
 
 public class UpdateBean implements Serializable {
-
     /**
      * code : 0
-     * data : {"version":"0.1","download":"http://same.com","special":[1,2]}
+     * data : {"versionCode":1000000,"download":"http://s.same.com/wawa-android-testupdate.apk","is_force":false}
      */
 
     private int code;
@@ -33,23 +31,23 @@ public class UpdateBean implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable {
+    public static class DataBean implements Serializable{
         /**
-         * version : 0.1
-         * download : http://same.com
-         * special : [1,2]
+         * versionCode : 1000000
+         * download : http://s.same.com/wawa-android-testupdate.apk
+         * is_force : false
          */
 
-        private String version;
+        private int versionCode;
         private String download;
-        private List<Integer> special;
+        private boolean is_force;
 
-        public String getVersion() {
-            return version;
+        public int getVersionCode() {
+            return versionCode;
         }
 
-        public void setVersion(String version) {
-            this.version = version;
+        public void setVersionCode(int versionCode) {
+            this.versionCode = versionCode;
         }
 
         public String getDownload() {
@@ -60,12 +58,12 @@ public class UpdateBean implements Serializable {
             this.download = download;
         }
 
-        public List<Integer> getSpecial() {
-            return special;
+        public boolean isIs_force() {
+            return is_force;
         }
 
-        public void setSpecial(List<Integer> special) {
-            this.special = special;
+        public void setIs_force(boolean is_force) {
+            this.is_force = is_force;
         }
     }
 }

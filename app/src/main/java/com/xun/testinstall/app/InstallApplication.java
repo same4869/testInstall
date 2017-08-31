@@ -23,7 +23,7 @@ public class InstallApplication extends Application{
         return instance;
     }
 
-    public SharedPreferences getWenbaSharedPreferences(String tbl) {
+    public SharedPreferences getCommSharedPreferences(String tbl) {
         return getSharedPreferences(tbl, Context.MODE_PRIVATE);
     }
 }

@@ -30,8 +30,8 @@ import static com.xun.testinstall.receiver.UpdateReceiver.DOWNLOAD_OR_INSTALL_KE
  */
 
 public class AppInstallService extends Service {
-    private static final String DOWNLOAD_URL = "http://s.same.com/down_mqtt_1_240_v1.2.3_110.apk";
-    private static final String APK_PATH = Environment.getExternalStorageDirectory() + "/same.apk";
+    private String DOWNLOAD_URL;
+    private static final String APK_PATH = Environment.getExternalStorageDirectory() + "/wawa-android.apk";
     private static final String TARGET_PACKAGE_NAME = "ohsame.wawalive";
     private static final String TARGET_CLASS_NAME = "ohsame.wawalive.WelcomActivity";
 
@@ -75,8 +75,9 @@ public class AppInstallService extends Service {
                 String dataString = intent.getStringExtra(DOWNLOAD_INFO_KEY);
                 try {
                     UpdateBean updateBean = JSONToBeanHandler.fromJsonString(dataString, UpdateBean.class);
-                    if (updateBean != null && updateBean.getData() != null) {
-                        startDownload(DOWNLOAD_URL/*updateBean.getData().getDownload()*/, APK_PATH);
+                    DOWNLOAD_URL = updateBean.getData().getDownload();
+                    if (updateBean.getData() != null) {
+                        startDownload(DOWNLOAD_URL, APK_PATH);
                     }
                 } catch (JSONFormatExcetion jsonFormatExcetion) {
                     jsonFormatExcetion.printStackTrace();
@@ -133,7 +134,7 @@ public class AppInstallService extends Service {
                 .start();   //启动下载
     }
 
-    @Download.onPre(DOWNLOAD_URL)
+    @Download.onPre
     protected void onPre(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "onPre");
     }
@@ -143,41 +144,41 @@ public class AppInstallService extends Service {
         LogUtil.d("kkkkkkkk", "taskStart");
     }
 
-    @Download.onTaskRunning(DOWNLOAD_URL)
+    @Download.onTaskRunning
     protected void running(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "taskRunning --> " + task.getPercent());
     }
 
-    @Download.onTaskResume(DOWNLOAD_URL)
+    @Download.onTaskResume
     void taskResume(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "taskResume");
     }
 
-    @Download.onTaskStop(DOWNLOAD_URL)
+    @Download.onTaskStop
     void taskStop(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "taskStop");
     }
 
-    @Download.onTaskCancel(DOWNLOAD_URL)
+    @Download.onTaskCancel
     void taskCancel(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "taskCancel");
         isUpdating = false;
     }
 
-    @Download.onTaskFail(DOWNLOAD_URL)
+    @Download.onTaskFail
     void taskFail(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "taskFail");
         isUpdating = false;
     }
 
-    @Download.onTaskComplete(DOWNLOAD_URL)
+    @Download.onTaskComplete
     void taskComplete(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "taskComplete");
         CommSetting.setIsAppShouldInstall(true);
         isUpdating = false;
     }
 
-    @Download.onNoSupportBreakPoint(DOWNLOAD_URL)
+    @Download.onNoSupportBreakPoint
     public void onNoSupportBreakPoint(DownloadTask task) {
         LogUtil.d("kkkkkkkk", "onNoSupportBreakPoint");
     }

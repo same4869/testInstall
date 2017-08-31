@@ -29,7 +29,7 @@ public class UpdateReceiver extends BroadcastReceiver {
         if (REQUEST_UPDATE_REMOTE_ACTION.equals(intent.getAction())) {
             String bodyString = intent.getStringExtra(REQUEST_BODY_KEY);
             Log.d("kkkkkkkk", "收到需要下载app的请求 bodyString --》 " + bodyString);
-            //TODO 如果收到这个广播则开始下载新版本APP，下载完成需要有一个全局标志位标志有新APP待安装
+            //如果收到这个广播则开始下载新版本APP，下载完成需要有一个全局标志位标志有新APP待安装
 
             Intent downloadIntent = new Intent(context, AppInstallService.class);
             downloadIntent.putExtra(DOWNLOAD_INFO_KEY, bodyString);
@@ -37,8 +37,8 @@ public class UpdateReceiver extends BroadcastReceiver {
             context.startService(downloadIntent);
 
         } else if (REQUEST_INSTALL_ACTION.equals(intent.getAction())) {
-            Log.d("kkkkkkkk", "收到需要安装app的请求");
-            //TODO 安装后全局标志位要执回来，如果当前没有待安装的APP，则忽略本次消息
+            Log.d("kkkkkkkk", "收到需要安装app的请求 CommSetting.getIsAppShouldInstall() --> " + CommSetting.getIsAppShouldInstall());
+            //安装后全局标志位要执回来，如果当前没有待安装的APP，则忽略本次消息
 
             if (CommSetting.getIsAppShouldInstall()) {
                 Intent downloadIntent = new Intent(context, AppInstallService.class);
