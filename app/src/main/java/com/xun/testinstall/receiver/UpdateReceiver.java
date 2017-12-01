@@ -23,16 +23,19 @@ public class UpdateReceiver extends BroadcastReceiver {
     private static final String REQUEST_INSTALL_ACTION = "requset.install.remote.action";
     public static final String DOWNLOAD_INFO_KEY = "download_info_key";
     public static final String DOWNLOAD_OR_INSTALL_KEY = "download_or_install_key";//1是下载，2是安装
+    private static final String DOWNLOAD_URL_KEY = "download_url_key";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (REQUEST_UPDATE_REMOTE_ACTION.equals(intent.getAction())) {
             String bodyString = intent.getStringExtra(REQUEST_BODY_KEY);
+            String downloadUrl = intent.getStringExtra(DOWNLOAD_URL_KEY);
             Log.d("kkkkkkkk", "收到需要下载app的请求 bodyString --》 " + bodyString);
             //如果收到这个广播则开始下载新版本APP，下载完成需要有一个全局标志位标志有新APP待安装
 
             Intent downloadIntent = new Intent(context, AppInstallService.class);
             downloadIntent.putExtra(DOWNLOAD_INFO_KEY, bodyString);
+            downloadIntent.putExtra(DOWNLOAD_URL_KEY, downloadUrl);
             downloadIntent.putExtra(DOWNLOAD_OR_INSTALL_KEY, 1);
             context.startService(downloadIntent);
 

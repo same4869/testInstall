@@ -33,7 +33,8 @@ public class AppInstallService extends Service {
     private String DOWNLOAD_URL;
     private static final String APK_PATH = Environment.getExternalStorageDirectory() + "/wawa-android.apk";
     private static final String TARGET_PACKAGE_NAME = "ohsame.wawalive";
-    private static final String TARGET_CLASS_NAME = "ohsame.wawalive.WelcomActivity";
+    private static final String TARGET_CLASS_NAME = "ohsame.wawalive.ui.BoxMainActivity";
+    private static final String DOWNLOAD_URL_KEY = "download_url_key";
 
     private boolean isUpdating = false;
 
@@ -64,6 +65,7 @@ public class AppInstallService extends Service {
         super.onCreate();
         LogUtil.d("kkkkkkkk", "AppInstallService onCreate");
         Aria.download(this).register();
+        Aria.download(this).removeAllTask(true);
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -73,9 +75,10 @@ public class AppInstallService extends Service {
             LogUtil.d("kkkkkkkk", "AppInstallService onStartCommand downloadOrInstall --> " + downloadOrInstall);
             if (downloadOrInstall == 1) {//下载
                 String dataString = intent.getStringExtra(DOWNLOAD_INFO_KEY);
+                String downloadUrl = intent.getStringExtra(DOWNLOAD_URL_KEY);
                 try {
                     UpdateBean updateBean = JSONToBeanHandler.fromJsonString(dataString, UpdateBean.class);
-                    DOWNLOAD_URL = updateBean.getData().getDownload();
+                    DOWNLOAD_URL = downloadUrl;
                     if (updateBean.getData() != null) {
                         startDownload(DOWNLOAD_URL, APK_PATH);
                     }
@@ -107,8 +110,9 @@ public class AppInstallService extends Service {
                     sendMsgToHandler("start install");
                     boolean isSuc = ApkInstallUtil.install(apkPath);
                     LogUtil.d("kkkkkkkk", "isSuc --> " + isSuc);
-                    startOpenApp(TARGET_PACKAGE_NAME, TARGET_CLASS_NAME);
                     CommSetting.setIsAppShouldInstall(false);
+                    startOpenApp(TARGET_PACKAGE_NAME, TARGET_CLASS_NAME);
+                    ApkInstallUtil.reboot(null);
                     isUpdating = false;
                 } else {
                     sendMsgToHandler("has not RootPerssion");

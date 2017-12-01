@@ -290,4 +290,31 @@ public class ApkInstallUtil {
         }
         return result;
     }
+
+    /**
+     * 重启
+     */
+    public static void reboot(String reason) {
+        DataOutputStream dataOutputStream = null;
+        BufferedReader errorStream = null;
+        try {
+            // 申请su权限
+            Process process = Runtime.getRuntime().exec("su");
+            dataOutputStream = new DataOutputStream(process.getOutputStream());
+            dataOutputStream.writeBytes(" reboot \n");
+            dataOutputStream.flush();
+            process.waitFor();
+        } catch (Exception e) {
+        } finally {
+            try {
+                if (dataOutputStream != null) {
+                    dataOutputStream.close();
+                }
+                if (errorStream != null) {
+                    errorStream.close();
+                }
+            } catch (IOException e) {
+            }
+        }
+    }
 }
